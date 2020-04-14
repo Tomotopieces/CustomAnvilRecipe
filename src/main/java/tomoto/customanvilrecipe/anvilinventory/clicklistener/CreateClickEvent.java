@@ -10,7 +10,9 @@ public class CreateClickEvent {
         if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGUI.getGUIName())) {
             if(event.getSlot() == 11 ||
                     event.getSlot() == 13 ||
-                    event.getSlot() == 15) {
+                    event.getSlot() == 15
+                    //Material and player Inventory ready to judge
+            ) {
 
             }
             else {
