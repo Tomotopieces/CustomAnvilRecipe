@@ -5,18 +5,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public abstract class AnvilInventoryGUI {
+public abstract class InventoryGUI {
     protected static String _GUIName = "GUIName";
     protected Player _player;
-    protected ItemStack _blackGlassPane;
+    protected ItemStack _grayGlassPane;
 
-    public AnvilInventoryGUI(Player player) {
+    public InventoryGUI(Player player) {
         this._player = player;
 
-        _blackGlassPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = _blackGlassPane.getItemMeta();
-        meta.setDisplayName("");
-        _blackGlassPane.setItemMeta(meta);
+        _grayGlassPane = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemMeta meta = _grayGlassPane.getItemMeta();
+        meta.setDisplayName(" ");
+        _grayGlassPane.setItemMeta(meta);
     }
 
     public abstract void openInventoryGUI();
