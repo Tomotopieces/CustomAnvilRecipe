@@ -31,9 +31,6 @@ public class MaterialSettingsClickEvent implements Listener {
         else if(buttonName.equals(MaterialSettingsGUI.getNbtSettingsButtonName())) {
 
         }
-        else if(buttonName.equals(MaterialSettingsGUI.getSaveButtonName())) {
-
-        }
         else if(buttonName.equals(MaterialSettingsGUI.getBackButtonName())) {
 
         }

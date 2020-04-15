@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGUI;
 import tomoto.customanvilrecipe.guiinventory.gui.MaterialSettingsGUI;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGUI;
+import tomoto.customanvilrecipe.recipe.AnvilRecipe;
 
 public class CreateClickEvent {
     @EventHandler
@@ -30,11 +31,17 @@ public class CreateClickEvent {
             return;
         }
 
-        if(buttonName.equals(CreateGUI.getRightSettingsButtonName())) {
-            new MaterialSettingsGUI((Player)event.getWhoClicked(), MaterialSettingsGUI.Position.RIGHT).openInventoryGUI();
+        if(buttonName.equals(CreateGUI.getLeftLoreSettingButtonName())) {
+
         }
-        else if(buttonName.equals(CreateGUI.getLeftSettingsButtonName())) {
-            new MaterialSettingsGUI((Player)event.getWhoClicked(), MaterialSettingsGUI.Position.LEFT).openInventoryGUI();
+        else if(buttonName.equals(CreateGUI.getLeftNbtSettingButtonName())) {
+
+        }
+        else if(buttonName.equals(CreateGUI.getRightLoreSettingButtonName())) {
+
+        }
+        else if(buttonName.equals(CreateGUI.getRightNbtSettingButtonName())) {
+
         }
         else if(buttonName.equals(CreateGUI.getSaveButtonName())) {
 

@@ -21,8 +21,7 @@ public class MaterialSettingsGUI extends InventoryGUI {
 
     private static final String loreSettingsButtonName = "§r§b§l§oLore match mode";
     private static final String nbtSettingsButtonName = "§r§b§l§oNBT match mode";
-    private static final String backButtonName = "§r§b§l§oCancel";
-    private static final String saveButtonName = "§r§b§l§oSave";
+    private static final String backButtonName = "§r§b§l§oBack";
 
     public MaterialSettingsGUI(Player player, Position position) {
         super(player);
@@ -57,29 +56,20 @@ public class MaterialSettingsGUI extends InventoryGUI {
         meta.setLore(lore);
         nbtSettings.setItemMeta(meta);
 
-        ItemStack cancelButton = new ItemStack(Material.BOOK);
-        meta = cancelButton.getItemMeta();
+        ItemStack backButton = new ItemStack(Material.BOOK);
+        meta = backButton.getItemMeta();
         meta.setDisplayName(backButtonName);
         lore.clear();
         lore.add("§r§eClick to return to menu.");
         meta.setLore(lore);
-        cancelButton.setItemMeta(meta);
-
-        ItemStack saveButton = new ItemStack(Material.MAP);
-        meta = saveButton.getItemMeta();
-        meta.setDisplayName(saveButtonName);
-        lore.clear();
-        lore.add("§r§eClick to save recipe.");
-        meta.setLore(lore);
-        saveButton.setItemMeta(meta);
+        backButton.setItemMeta(meta);
 
         for(int i = 0; i < materialSettings.getSize(); ++i) {
             materialSettings.setItem(i, _grayGlassPane);
         }
         materialSettings.setItem(0, loreSettings);
         materialSettings.setItem(1, nbtSettings);
-        materialSettings.setItem(7, saveButton);
-        materialSettings.setItem(8, cancelButton);
+        materialSettings.setItem(8, backButton);
 
         player.closeInventory();
         player.openInventory(materialSettings);
@@ -115,9 +105,5 @@ public class MaterialSettingsGUI extends InventoryGUI {
 
     public static String getBackButtonName() {
         return backButtonName;
-    }
-
-    public static String getSaveButtonName() {
-        return saveButtonName;
     }
 }
