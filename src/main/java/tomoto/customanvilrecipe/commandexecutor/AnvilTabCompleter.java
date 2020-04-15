@@ -11,7 +11,7 @@ public class AnvilTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         ArrayList<String> list = new ArrayList<>();
-        if(args.length == 0){
+        if(args.length == 1){
             list.add("menu");
             list.add("create");
             list.add("list");

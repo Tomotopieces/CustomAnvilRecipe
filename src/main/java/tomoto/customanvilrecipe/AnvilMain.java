@@ -6,9 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import tomoto.customanvilrecipe.commandexecutor.AnvilExecutor;
 import tomoto.customanvilrecipe.commandexecutor.AnvilTabCompleter;
-import tomoto.customanvilrecipe.anvilinventory.clicklistener.MenuClickEvent;
+import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
 
-public final class CustomAnvilRecipe extends JavaPlugin {
+public final class AnvilMain extends JavaPlugin {
     private ProtocolManager protocolManager;
     @Override
     public void onEnable() {

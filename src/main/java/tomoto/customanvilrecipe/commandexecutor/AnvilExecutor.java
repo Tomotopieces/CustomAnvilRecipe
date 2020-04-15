@@ -4,8 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import tomoto.customanvilrecipe.anvilinventory.gui.CreateGUI;
-import tomoto.customanvilrecipe.anvilinventory.gui.MenuGUI;
+import tomoto.customanvilrecipe.guiinventory.gui.CreateGUI;
+import tomoto.customanvilrecipe.guiinventory.gui.MenuGUI;
 
 public class AnvilExecutor implements CommandExecutor {
 
