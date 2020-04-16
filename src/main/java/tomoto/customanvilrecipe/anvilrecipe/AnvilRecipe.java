@@ -1,4 +1,4 @@
-package tomoto.customanvilrecipe.recipe;
+package tomoto.customanvilrecipe.anvilrecipe;
 
 import com.comphenix.protocol.wrappers.nbt.NbtList;
 import org.bukkit.inventory.ItemStack;

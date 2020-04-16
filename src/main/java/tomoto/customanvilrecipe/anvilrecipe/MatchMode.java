@@ -1,4 +1,4 @@
-package tomoto.customanvilrecipe.recipe;
+package tomoto.customanvilrecipe.anvilrecipe;
 
 /**
  * Match mode of data (NBT or lore) of material of custom recipe.

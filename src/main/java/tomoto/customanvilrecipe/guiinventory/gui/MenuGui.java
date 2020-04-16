@@ -10,11 +10,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class MenuGUI extends InventoryGUI {
+public class MenuGui extends InventoryGui {
     private static final String createButtonName = "§lCreate";
     private static final String listButtonName = "§lList";
 
-    public MenuGUI(Player player) {
+    public MenuGui(Player player) {
         super(player);
         guiName = "Anvil Menu";
     }

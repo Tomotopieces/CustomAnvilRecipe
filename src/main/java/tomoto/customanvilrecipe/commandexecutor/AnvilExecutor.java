@@ -4,8 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import tomoto.customanvilrecipe.guiinventory.gui.CreateGUI;
-import tomoto.customanvilrecipe.guiinventory.gui.MenuGUI;
+import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
+import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
 public class AnvilExecutor implements CommandExecutor {
 
@@ -14,15 +14,15 @@ public class AnvilExecutor implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player)sender;
             if(args.length == 0) {
-                new MenuGUI(player).openInventoryGUI();
+                new MenuGui(player).openInventoryGUI();
             }
             else if(args.length == 1) {
                 String parameter = args[0];
                 if(parameter.equalsIgnoreCase("menu")) {
-                    new MenuGUI(player).openInventoryGUI();
+                    new MenuGui(player).openInventoryGUI();
                 }
                 if(parameter.equalsIgnoreCase("create")) {
-                    new CreateGUI(player).openInventoryGUI();
+                    new CreateGui(player).openInventoryGUI();
                 }
                 if(parameter.equalsIgnoreCase("list")) {
                     //openListGUI();

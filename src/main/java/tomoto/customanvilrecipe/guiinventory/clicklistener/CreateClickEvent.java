@@ -3,16 +3,15 @@ package tomoto.customanvilrecipe.guiinventory.clicklistener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import tomoto.customanvilrecipe.guiinventory.gui.CreateGUI;
-import tomoto.customanvilrecipe.guiinventory.gui.MaterialSettingsGUI;
-import tomoto.customanvilrecipe.guiinventory.gui.MenuGUI;
-import tomoto.customanvilrecipe.recipe.AnvilRecipe;
+import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
+import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
 public class CreateClickEvent {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
-        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGUI.getGUIName())) {
-            int slot = event.getRawSlot();
+        int slot;
+        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.getGUIName())) {
+            slot = event.getRawSlot();
             if(slot < event.getInventory().getSize()) {
                 if(slot != 2 && slot != 4 && slot != 6) {
                     event.setCancelled(true);
@@ -31,23 +30,19 @@ public class CreateClickEvent {
             return;
         }
 
-        if(buttonName.equals(CreateGUI.getLeftLoreSettingButtonName())) {
+        switch (buttonName) {
+            case CreateGui.leftLoreSettingButtonName:
+            case CreateGui.leftNbtSettingButtonName:
+            case CreateGui.rightLoreSettingButtonName:
+            case CreateGui.rightNbtSettingButtonName:
+                CreateGui.changeMatchMode(event.getInventory().getItem(slot));
+                break;
+            case CreateGui.saveButtonName:
 
-        }
-        else if(buttonName.equals(CreateGUI.getLeftNbtSettingButtonName())) {
-
-        }
-        else if(buttonName.equals(CreateGUI.getRightLoreSettingButtonName())) {
-
-        }
-        else if(buttonName.equals(CreateGUI.getRightNbtSettingButtonName())) {
-
-        }
-        else if(buttonName.equals(CreateGUI.getSaveButtonName())) {
-
-        }
-        else if(buttonName.equals(CreateGUI.getBackButtonName())) {
-            new MenuGUI((Player)event.getWhoClicked()).openInventoryGUI();
+                break;
+            case CreateGui.backButtonName:
+                new MenuGui((Player) event.getWhoClicked()).openInventoryGUI();
+                break;
         }
     }
 }
