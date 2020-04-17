@@ -1,19 +1,27 @@
 package tomoto.customanvilrecipe.guiinventory.clicklistener;
 
+import com.comphenix.protocol.wrappers.nbt.NbtFactory;
+import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
-public class CreateClickEvent {
+public class CreateClickEvent implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
+        CreateGui gui;
         int slot;
-        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.getGUIName())) {
+        if(event.getClickedInventory() instanceof CreateGui) {
+            gui = (CreateGui)event.getClickedInventory();
             slot = event.getRawSlot();
             if(slot < event.getInventory().getSize()) {
-                if(slot != 2 && slot != 4 && slot != 6) {
+                if(!gui.isMaterialSlot(slot)) {
                     event.setCancelled(true);
                 }
             }
@@ -31,18 +39,41 @@ public class CreateClickEvent {
         }
 
         switch (buttonName) {
-            case CreateGui.leftLoreSettingButtonName:
-            case CreateGui.leftNbtSettingButtonName:
-            case CreateGui.rightLoreSettingButtonName:
-            case CreateGui.rightNbtSettingButtonName:
-                CreateGui.changeMatchMode(event.getInventory().getItem(slot));
-                break;
             case CreateGui.saveButtonName:
-
+                CreateNewRecipe(event.getClickedInventory());
                 break;
             case CreateGui.backButtonName:
-                new MenuGui((Player) event.getWhoClicked()).openInventoryGUI();
+                new MenuGui((Player) event.getWhoClicked()).openGui();
+                break;
+            default:
+                event.getWhoClicked().sendMessage("Meow~");
                 break;
         }
+    }
+
+    private void CreateNewRecipe(Inventory create) {
+        if(create.getItem(2) == null ||
+                create.getItem(4) == null ||
+                create.getItem(6) == null) {
+            return;
+        }
+
+        ItemStack leftMaterial = create.getItem(2);
+        ItemStack rightMaterial = create.getItem(4);
+        ItemStack resultItem = create.getItem(6);
+
+        NbtWrapper<?> leftNbt = NbtFactory.fromItemTag(leftMaterial);
+        NbtWrapper<?> rightNbt = NbtFactory.fromItemTag(rightMaterial);
+        NbtWrapper<?> resultNbt = NbtFactory.fromItemTag(resultItem);
+
+        AnvilRecipe recipe = new AnvilRecipe();
+        recipe.setLeftMaterial(leftMaterial);
+        recipe.setRightMaterial(rightMaterial);
+        recipe.setResultItem(resultItem);
+        recipe.setLeftNbt(leftNbt);
+        recipe.setRightNbt(rightNbt);
+        recipe.setResultNbt(resultNbt);
+
+        recipe.saveToFile();
     }
 }

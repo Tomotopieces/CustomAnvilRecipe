@@ -1,134 +1,157 @@
 package tomoto.customanvilrecipe.anvilrecipe;
 
-import com.comphenix.protocol.wrappers.nbt.NbtList;
+import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Custom anvil recipe.
+ */
 public class AnvilRecipe {
-    private ItemStack leftItem;
-    private NbtList<String> leftNbt;
-    private MatchMode leftLoreMatchMode = MatchMode.EXACT;
-    private MatchMode leftNbtMatchMode = MatchMode.EXACT;
-    private ItemStack rightItem;
-    private NbtList<String> rightNbt;
-    private MatchMode rightLoreMatchMode = MatchMode.EXACT;
-    private MatchMode rightNbtMatchMode = MatchMode.EXACT;
+    private ItemStack leftMaterial;
+    private NbtWrapper<?> leftNbt;
+    private ItemStack rightMaterial;
+    private NbtWrapper<?> rightNbt;
     private ItemStack resultItem;
-    private NbtList<String> resultNbt;
+    private NbtWrapper<?> resultNbt;
 
-    private MatchMode loreMatchMode = MatchMode.EXACT;
-    private MatchMode nbtMatchMode = MatchMode.EXACT;
-
-    public AnvilRecipe(ItemStack leftItem, NbtList<String> leftNbt,
-                       ItemStack rightItem, NbtList<String> rightNbt,
-                       ItemStack resultItem, NbtList<String> resultNbt) {
-        this.leftItem = leftItem;
+    /**
+     * Create a new anvil recipe.
+     * @param leftMaterial Left material of the recipe.
+     * @param leftNbt NBT data of the left material.
+     * @param rightMaterial Right material of the recipe.
+     * @param rightNbt NBT data of the right material.
+     * @param resultItem Result item of the recipe.
+     * @param resultNbt NBT of the result item.
+     */
+    public AnvilRecipe(ItemStack leftMaterial, NbtWrapper<?> leftNbt,
+                       ItemStack rightMaterial, NbtWrapper<?> rightNbt,
+                       ItemStack resultItem, NbtWrapper<?> resultNbt) {
+        this.leftMaterial = leftMaterial;
         this.leftNbt = leftNbt;
-        this.rightItem = rightItem;
+        this.rightMaterial = rightMaterial;
         this.rightNbt = rightNbt;
         this.resultItem = resultItem;
         this.resultNbt = resultNbt;
     }
 
+    /**
+     * Create a empty anvil recipe.
+     */
     public AnvilRecipe() {
         this(null, null, null, null, null, null);
     }
 
+    /**
+     * Save the recipe to file.
+     */
     public void saveToFile() {
     }
 
-    public ItemStack getLeftItem() {
-        return leftItem;
+    /**
+     * Get the left material (not NBT data) of the recipe.
+     * @see AnvilRecipe#getLeftNbt()
+     * @return The left material (not NBT data) of the recipe.
+     */
+    public ItemStack getLeftMaterial() {
+        return leftMaterial;
     }
 
-    public NbtList<String> getLeftNbt() {
+    /**
+     * Get the NBT data (not item meta) of the left material.
+     * @see AnvilRecipe#getLeftMaterial()
+     * @return The NBT data (not item meta) of the left material.
+     */
+    public NbtWrapper<?> getLeftNbt() {
         return leftNbt;
     }
 
-    public MatchMode getLeftLoreMatchMode() {
-        return leftLoreMatchMode;
+    /**
+     * Get the right material (not NBT data) of the recipe.
+     * @see AnvilRecipe#getRightNbt()
+     * @return The right material (not NBT data) of the recipe.
+     */
+    public ItemStack getRightMaterial() {
+        return rightMaterial;
     }
 
-    public MatchMode getLeftNbtMatchMode() {
-        return leftNbtMatchMode;
-    }
-
-    public ItemStack getRightItem() {
-        return rightItem;
-    }
-
-    public NbtList<String> getRightNbt() {
+    /**
+     * Get the NBT data (not item meta) of the right material.
+     * @see AnvilRecipe#getRightMaterial()
+     * @return The NBT data (not item meta) of the right material.
+     */
+    public NbtWrapper<?> getRightNbt() {
         return rightNbt;
     }
 
-    public MatchMode getRightLoreMatchMode() {
-        return rightLoreMatchMode;
-    }
-
-    public MatchMode getRightNbtMatchMode() {
-        return rightNbtMatchMode;
-    }
-
+    /**
+     * Get the result material (not NBT data) of the recipe.
+     * @see AnvilRecipe#getResultNbt()
+     * @return The result material (not NBT data) of the recipe.
+     */
     public ItemStack getResultItem() {
         return resultItem;
     }
 
-    public NbtList<String> getResultNbt() {
+    /**
+     * Get the NBT data (not item meta) of the result item.
+     * @see AnvilRecipe#getResultItem() 
+     * @return The NBT data (not item meta) of the result item.
+     */
+    public NbtWrapper<?> getResultNbt() {
         return resultNbt;
     }
 
-    public MatchMode getLoreMatchMode() {
-        return loreMatchMode;
+    /**
+     * Set the left material (not NBT data) of the recipe.
+     * @see AnvilRecipe#setLeftNbt(NbtWrapper)  
+     * @param leftMaterial The left material of the recipe.
+     */
+    public void setLeftMaterial(ItemStack leftMaterial) {
+        this.leftMaterial = leftMaterial;
     }
 
-    public MatchMode getNbtMatchMode() {
-        return nbtMatchMode;
-    }
-
-    public void setLeftItem(ItemStack leftItem) {
-        this.leftItem = leftItem;
-    }
-
-    public void setLeftNbt(NbtList<String> leftNbt) {
+    /**
+     * Set the NBT data (not item meta) of the lest material.
+     * @see AnvilRecipe#setLeftMaterial(org.bukkit.inventory.ItemStack)
+     * @param leftNbt The NBT data of the lest material.
+     */
+    public void setLeftNbt(NbtWrapper<?> leftNbt) {
         this.leftNbt = leftNbt;
     }
 
-    public void setLeftLoreMatchMode(MatchMode leftLoreMatchMode) {
-        this.leftLoreMatchMode = leftLoreMatchMode;
+    /**
+     * Set the right material (not NBT data) of the recipe.
+     * @see AnvilRecipe#setRightNbt(NbtWrapper)
+     * @param rightMaterial The right material of the recipe.
+     */
+    public void setRightMaterial(ItemStack rightMaterial) {
+        this.rightMaterial = rightMaterial;
     }
 
-    public void setLeftNbtMatchMode(MatchMode leftNbtMatchMode) {
-        this.leftNbtMatchMode = leftNbtMatchMode;
-    }
-
-    public void setRightItem(ItemStack rightItem) {
-        this.rightItem = rightItem;
-    }
-
-    public void setRightNbt(NbtList<String> rightNbt) {
+    /**
+     * Set the right NBT data (not item meta) of the right material.
+     * @see AnvilRecipe#setRightMaterial(ItemStack)
+     * @param rightNbt The right NBT data of the right material.
+     */
+    public void setRightNbt(NbtWrapper<?> rightNbt) {
         this.rightNbt = rightNbt;
     }
 
-    public void setRightLoreMatchMode(MatchMode rightLoreMatchMode) {
-        this.rightLoreMatchMode = rightLoreMatchMode;
-    }
-
-    public void setRightNbtMatchMode(MatchMode rightNbtMatchMode) {
-        this.rightNbtMatchMode = rightNbtMatchMode;
-    }
-
+    /**
+     * Set the result item (not NBT data) of the recipe.
+     * @see AnvilRecipe#setResultNbt(NbtWrapper)
+     * @param resultItem The result item of the recipe.
+     */
     public void setResultItem(ItemStack resultItem) {
         this.resultItem = resultItem;
     }
 
-    public void setResultNbt(NbtList<String> resultNbt) {
+    /**
+     * Set the NBT data (not item meta) of the result item.
+     * @see AnvilRecipe#setResultItem(ItemStack)
+     * @param resultNbt The NBT data of the result item.
+     */
+    public void setResultNbt(NbtWrapper<?> resultNbt) {
         this.resultNbt = resultNbt;
-    }
-
-    public void setLoreMatchMode(MatchMode loreMatchMode) {
-        this.loreMatchMode = loreMatchMode;
-    }
-
-    public void setNbtMatchMode(MatchMode nbtMatchMode) {
-        this.nbtMatchMode = nbtMatchMode;
     }
 }

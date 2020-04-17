@@ -28,7 +28,7 @@ public class MenuClickEvent implements Listener {
         }
 
         if(buttonName.equals(MenuGui.getCreateButtonName())) {
-            new CreateGui((Player)event.getWhoClicked()).openInventoryGUI();
+            new CreateGui((Player)event.getWhoClicked()).openGui();
         }
     }
 }
