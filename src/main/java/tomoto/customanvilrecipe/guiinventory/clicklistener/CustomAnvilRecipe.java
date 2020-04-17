@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
-public class MenuClickEvent implements Listener {
+public class CustomAnvilRecipe implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
         if(event.getWhoClicked().getOpenInventory().getTitle().equals(MenuGui.getGUIName())) {
