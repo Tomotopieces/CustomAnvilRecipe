@@ -16,12 +16,12 @@ public class AnvilRecipe {
 
     /**
      * Create a new anvil recipe.
-     * @param leftMaterial Left material of the recipe.
-     * @param leftNbt NBT data of the left material.
-     * @param rightMaterial Right material of the recipe.
-     * @param rightNbt NBT data of the right material.
-     * @param resultItem Result item of the recipe.
-     * @param resultNbt NBT of the result item.
+     * @param leftMaterial The left material of the recipe.
+     * @param leftNbt The NBT data of the left material.
+     * @param rightMaterial The right material of the recipe.
+     * @param rightNbt The NBT data of the right material.
+     * @param resultItem The result item of the recipe.
+     * @param resultNbt The NBT of the result item.
      */
     public AnvilRecipe(ItemStack leftMaterial, NbtWrapper<?> leftNbt,
                        ItemStack rightMaterial, NbtWrapper<?> rightNbt,
@@ -35,7 +35,7 @@ public class AnvilRecipe {
     }
 
     /**
-     * Create a empty anvil recipe.
+     * Create an empty anvil recipe.
      */
     public AnvilRecipe() {
         this(null, null, null, null, null, null);
@@ -59,7 +59,7 @@ public class AnvilRecipe {
     /**
      * Get the NBT data (not item meta) of the left material.
      * @see AnvilRecipe#getLeftMaterial()
-     * @return The NBT data (not item meta) of the left material.
+     * @return The NBT data of the left material.
      */
     public NbtWrapper<?> getLeftNbt() {
         return leftNbt;
@@ -68,7 +68,7 @@ public class AnvilRecipe {
     /**
      * Get the right material (not NBT data) of the recipe.
      * @see AnvilRecipe#getRightNbt()
-     * @return The right material (not NBT data) of the recipe.
+     * @return The right material of the recipe.
      */
     public ItemStack getRightMaterial() {
         return rightMaterial;
@@ -77,7 +77,7 @@ public class AnvilRecipe {
     /**
      * Get the NBT data (not item meta) of the right material.
      * @see AnvilRecipe#getRightMaterial()
-     * @return The NBT data (not item meta) of the right material.
+     * @return The NBT data of the right material.
      */
     public NbtWrapper<?> getRightNbt() {
         return rightNbt;
@@ -86,7 +86,7 @@ public class AnvilRecipe {
     /**
      * Get the result material (not NBT data) of the recipe.
      * @see AnvilRecipe#getResultNbt()
-     * @return The result material (not NBT data) of the recipe.
+     * @return The result material of the recipe.
      */
     public ItemStack getResultItem() {
         return resultItem;
@@ -95,7 +95,7 @@ public class AnvilRecipe {
     /**
      * Get the NBT data (not item meta) of the result item.
      * @see AnvilRecipe#getResultItem() 
-     * @return The NBT data (not item meta) of the result item.
+     * @return The NBT data of the result item.
      */
     public NbtWrapper<?> getResultNbt() {
         return resultNbt;

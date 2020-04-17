@@ -15,15 +15,16 @@ import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 public class CreateClickEvent implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
-        CreateGui gui;
         int slot;
-        if(event.getClickedInventory() instanceof CreateGui) {
-            gui = (CreateGui)event.getClickedInventory();
+        Player player;
+        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.guiName)) {
+            player = (Player)event.getWhoClicked();
             slot = event.getRawSlot();
             if(slot < event.getInventory().getSize()) {
-                if(!gui.isMaterialSlot(slot)) {
+                if(!CreateGui.isMaterialSlot(slot)) {
                     event.setCancelled(true);
                 }
+                player.sendMessage(Integer.toString(slot));
             }
         }
         else {
@@ -43,10 +44,10 @@ public class CreateClickEvent implements Listener {
                 CreateNewRecipe(event.getClickedInventory());
                 break;
             case CreateGui.backButtonName:
-                new MenuGui((Player) event.getWhoClicked()).openGui();
+                new MenuGui().openGui(player);
                 break;
             default:
-                event.getWhoClicked().sendMessage("Meow~");
+                player.sendMessage("Meow~");
                 break;
         }
     }

@@ -7,13 +7,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
-public class CustomAnvilRecipe implements Listener {
+public class MenuClickEvent implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
-        if(event.getWhoClicked().getOpenInventory().getTitle().equals(MenuGui.getGUIName())) {
-            if(event.getRawSlot() < event.getInventory().getSize()) {
-                event.setCancelled(true);
-            }
+        Player player;
+        if(event.getWhoClicked().getOpenInventory().getTitle().equals(MenuGui.guiName)) {
+            player = (Player)event.getWhoClicked();
+            event.setCancelled(true);
         }
         else {
             return;
@@ -27,8 +27,13 @@ public class CustomAnvilRecipe implements Listener {
             return;
         }
 
-        if(buttonName.equals(MenuGui.getCreateButtonName())) {
-            new CreateGui((Player)event.getWhoClicked()).openGui();
+        switch (buttonName) {
+            case MenuGui.createButtonName:
+                new CreateGui().openGui(player);
+                break;
+            case MenuGui.listButtonName:
+
+                break;
         }
     }
 }

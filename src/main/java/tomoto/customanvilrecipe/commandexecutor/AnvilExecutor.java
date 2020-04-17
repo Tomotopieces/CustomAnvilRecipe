@@ -14,15 +14,15 @@ public class AnvilExecutor implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player)sender;
             if(args.length == 0) {
-                new MenuGui(player).openGui();
+                new MenuGui().openGui(player);
             }
             else if(args.length == 1) {
                 String parameter = args[0];
                 if(parameter.equalsIgnoreCase("menu")) {
-                    new MenuGui(player).openGui();
+                    new MenuGui().openGui(player);
                 }
                 if(parameter.equalsIgnoreCase("create")) {
-                    new CreateGui(player).openGui();
+                    new CreateGui().openGui(player);
                 }
                 if(parameter.equalsIgnoreCase("list")) {
                     //openListGUI();
