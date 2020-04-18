@@ -1,5 +1,9 @@
 package tomoto.customanvilrecipe.guiinventory.clicklistener;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
 import org.bukkit.entity.Player;
@@ -11,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class CreateClickEvent implements Listener {
     @EventHandler
@@ -41,7 +47,7 @@ public class CreateClickEvent implements Listener {
 
         switch (buttonName) {
             case CreateGui.saveButtonName:
-                CreateNewRecipe(event.getClickedInventory());
+                CreateNewRecipe(player, event.getClickedInventory());
                 break;
             case CreateGui.backButtonName:
                 new MenuGui().openGui(player);
@@ -52,11 +58,22 @@ public class CreateClickEvent implements Listener {
         }
     }
 
-    private void CreateNewRecipe(Inventory create) {
+    private void CreateNewRecipe(Player player, Inventory create) {
         if(create.getItem(2) == null ||
                 create.getItem(4) == null ||
                 create.getItem(6) == null) {
             return;
+        }
+
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS);
+        packet.getAttributeCollectionModifier();
+        //
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        try {
+            protocolManager.sendServerPacket(player, packet);
+        }
+        catch(InvocationTargetException e) {
+            e.printStackTrace();
         }
 
         ItemStack leftMaterial = create.getItem(2);

@@ -18,10 +18,12 @@ public class MenuGui extends InventoryGui {
     private static ItemStack createButton = new ItemStack(Material.ANVIL);
     private static ItemStack listButton = new ItemStack(Material.PAPER);
 
+    private Inventory menu;
+
     @Override
     public void openGui(Player player) {
         super.openGui(player);
-        Inventory menu = Bukkit.createInventory(player, 1*9, guiName);
+        menu = Bukkit.createInventory(player, 1*9, guiName);
 
         ItemMeta meta;
         ArrayList<String> lore = new ArrayList<>();
@@ -50,5 +52,10 @@ public class MenuGui extends InventoryGui {
         menu.setItem(1, listButton);
         player.closeInventory();
         player.openInventory(menu);
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return this.menu;
     }
 }

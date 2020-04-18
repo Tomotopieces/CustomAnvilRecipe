@@ -2,6 +2,7 @@ name: CustomAnvilRecipe
 version: @version@
 main: tomoto.customanvilrecipe.CustomAnvilRecipe
 api-version: 1.13
+depend: [ProtocolLib]
 
 commands:
   anvil:

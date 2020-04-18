@@ -17,13 +17,15 @@ public class CreateGui extends InventoryGui {
     private static ItemStack backButton = new ItemStack(Material.BOOK);
     private static ItemStack saveButton = new ItemStack(Material.MAP);
 
+    private Inventory create;
+
     /**
      * Open Create gui.
      */
     @Override
     public void openGui(Player player) {
         super.openGui(player);
-        Inventory create = Bukkit.createInventory(player, 1*9, guiName);
+        create = Bukkit.createInventory(player, 1*9, guiName);
         ItemMeta meta;
         ArrayList<String> lore = new ArrayList<>();
 
@@ -60,5 +62,10 @@ public class CreateGui extends InventoryGui {
      */
     public static boolean isMaterialSlot(int index) {
         return index == 2 || index == 4 || index == 6;
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return this.create;
     }
 }
