@@ -1,11 +1,8 @@
 package tomoto.customanvilrecipe.guiinventory.clicklistener;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,21 +13,20 @@ import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
-import java.lang.reflect.InvocationTargetException;
+import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeList;
 
 public class CreateClickEvent implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
         int slot;
         Player player;
-        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.guiName)) {
+        if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.GUI_NAME)) {
             player = (Player)event.getWhoClicked();
             slot = event.getRawSlot();
             if(slot < event.getInventory().getSize()) {
                 if(!CreateGui.isMaterialSlot(slot)) {
                     event.setCancelled(true);
                 }
-                player.sendMessage(Integer.toString(slot));
             }
         }
         else {
@@ -46,14 +42,13 @@ public class CreateClickEvent implements Listener {
         }
 
         switch (buttonName) {
-            case CreateGui.saveButtonName:
+            case CreateGui.SAVE_BUTTON_NAME:
                 CreateNewRecipe(player, event.getClickedInventory());
                 break;
-            case CreateGui.backButtonName:
+            case CreateGui.BACK_BUTTON_NAME:
                 new MenuGui().openGui(player);
                 break;
             default:
-                player.sendMessage("Meow~");
                 break;
         }
     }
@@ -65,17 +60,6 @@ public class CreateClickEvent implements Listener {
             return;
         }
 
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS);
-        packet.getAttributeCollectionModifier();
-        //
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        try {
-            protocolManager.sendServerPacket(player, packet);
-        }
-        catch(InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
         ItemStack leftMaterial = create.getItem(2);
         ItemStack rightMaterial = create.getItem(4);
         ItemStack resultItem = create.getItem(6);
@@ -85,13 +69,20 @@ public class CreateClickEvent implements Listener {
         NbtWrapper<?> resultNbt = NbtFactory.fromItemTag(resultItem);
 
         AnvilRecipe recipe = new AnvilRecipe();
-        recipe.setLeftMaterial(leftMaterial);
-        recipe.setRightMaterial(rightMaterial);
-        recipe.setResultItem(resultItem);
-        recipe.setLeftNbt(leftNbt);
-        recipe.setRightNbt(rightNbt);
-        recipe.setResultNbt(resultNbt);
+        recipe.setLeftMaterial(leftMaterial.getType());
+        recipe.setRightMaterial(rightMaterial.getType());
+        recipe.setResultMaterial(resultItem.getType());
+        recipe.setLeftNbt(NbtFactory.asCompound(leftNbt));
+        recipe.setRightNbt(NbtFactory.asCompound(rightNbt));
+        recipe.setResultNbt(NbtFactory.asCompound(resultNbt));
 
-        recipe.saveToFile();
+        if(recipe.saveToFile()) {
+            player.closeInventory();
+            recipeList.add(recipe);
+            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
+        }
+        else {
+            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "All three slots must be filled.");
+        }
     }
 }

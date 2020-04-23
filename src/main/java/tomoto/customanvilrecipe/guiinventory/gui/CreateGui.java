@@ -3,56 +3,48 @@ package tomoto.customanvilrecipe.guiinventory.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class CreateGui extends InventoryGui {
-    public static final String guiName = "Anvil Recipe Create";
-    public static final String backButtonName = "§r§b§l§oBack";
-    public static final String saveButtonName = "§r§b§l§oSave";
+    public static final String GUI_NAME = "Anvil Recipe Create";
+    public static final String BACK_BUTTON_NAME = "§r§b§l§oBack";
+    public static final String SAVE_BUTTON_NAME = "§r§b§l§oSave";
 
-    private static ItemStack backButton = new ItemStack(Material.BOOK);
-    private static ItemStack saveButton = new ItemStack(Material.MAP);
-
-    private Inventory create;
+    private static final ItemStack BACK_BUTTON = new ItemStack(Material.BOOK);
+    private static final ItemStack SAVE_BUTTON = new ItemStack(Material.MAP);
 
     /**
      * Open Create gui.
      */
     @Override
-    public void openGui(Player player) {
+    public CreateGui openGui(Player player) {
         super.openGui(player);
-        create = Bukkit.createInventory(player, 1*9, guiName);
-        ItemMeta meta;
-        ArrayList<String> lore = new ArrayList<>();
 
-        meta = backButton.getItemMeta();
-        meta.setDisplayName(backButtonName);
-        lore.add("§r§eClick to return to menu.");
-        meta.setLore(lore);
-        backButton.setItemMeta(meta);
-
-        meta = saveButton.getItemMeta();
-        meta.setDisplayName(saveButtonName);
-        lore.clear();
-        lore.add("§r§eClick to save recipe.");
-        meta.setLore(lore);
-        saveButton.setItemMeta(meta);
-
-        for(int i = 0; i < create.getSize(); ++i) {
-            create.setItem(i, grayGlassPane);
-        }
-        create.setItem(2, null);
-        create.setItem(4, null);
-        create.setItem(6, null);
-        create.setItem(0, saveButton);
-        create.setItem(8, backButton);
-
+        /**
+         * 感谢 9032676
+         */
         player.closeInventory();
-        player.openInventory(create);
+        player.openInventory(Optional.of(Bukkit.createInventory(player, 9, GUI_NAME)).map(inv -> {
+            setItem(BACK_BUTTON, BACK_BUTTON_NAME, "§r§eClick to return to menu.");
+            setItem(SAVE_BUTTON, SAVE_BUTTON_NAME, "§r§eClick to save recipe.");
+
+            Stream.iterate(0, i -> i + 1)
+                    .limit(inv.getSize())
+                    .filter(i -> !isMaterialSlot(i))
+                    .forEach(i -> {
+                        switch (i) {
+                            case 0: inv.setItem(i, SAVE_BUTTON); return;
+                            case 8: inv.setItem(i, BACK_BUTTON); return;
+                            default: inv.setItem(i, GRAY_GLASS_PANE);
+                        }
+                    });
+            return inv;
+        }).get());
+
+        return this;
     }
 
     /**
@@ -62,10 +54,5 @@ public class CreateGui extends InventoryGui {
      */
     public static boolean isMaterialSlot(int index) {
         return index == 2 || index == 4 || index == 6;
-    }
-
-    @Override
-    public Inventory getInventory() {
-        return this.create;
     }
 }
