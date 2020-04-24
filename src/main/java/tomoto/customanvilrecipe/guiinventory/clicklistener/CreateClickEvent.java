@@ -1,7 +1,5 @@
 package tomoto.customanvilrecipe.guiinventory.clicklistener;
 
-import com.comphenix.protocol.wrappers.nbt.NbtFactory;
-import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -62,23 +60,16 @@ public class CreateClickEvent implements Listener {
             return;
         }
 
-        ItemStack leftMaterial = create.getItem(2);
-        ItemStack rightMaterial = create.getItem(4);
+        ItemStack leftItem = create.getItem(2);
+        ItemStack rightItem = create.getItem(4);
         ItemStack resultItem = create.getItem(6);
 
-        NbtWrapper<?> leftNbt = NbtFactory.fromItemTag(leftMaterial);
-        NbtWrapper<?> rightNbt = NbtFactory.fromItemTag(rightMaterial);
-        NbtWrapper<?> resultNbt = NbtFactory.fromItemTag(resultItem);
-
         AnvilRecipe recipe = new AnvilRecipe();
-        recipe.setLeftMaterial(leftMaterial.getType());
-        recipe.setRightMaterial(rightMaterial.getType());
-        recipe.setResultMaterial(resultItem.getType());
-        recipe.setLeftNbt(NbtFactory.asCompound(leftNbt));
-        recipe.setRightNbt(NbtFactory.asCompound(rightNbt));
-        recipe.setResultNbt(NbtFactory.asCompound(resultNbt));
+        recipe.setLeftItem(leftItem);
+        recipe.setRightItem(rightItem);
+        recipe.setResultItem(resultItem);
 
-        if(matchAnvilRecipe(leftMaterial, NbtFactory.asCompound(leftNbt), rightMaterial, NbtFactory.asCompound(rightNbt)) != null) {
+        if(matchAnvilRecipe(leftItem, rightItem) != null) {
             if(recipe.saveToFile()) {
                 player.closeInventory();
                 recipeList.add(recipe);

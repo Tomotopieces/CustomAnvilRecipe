@@ -1,7 +1,5 @@
 package tomoto.customanvilrecipe.anvillistener;
 
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,11 +29,9 @@ public class AnvilClickResultEvent implements Listener {
             }
             if(event.getSlotType().equals(InventoryType.SlotType.RESULT)) {
                 Player player = (Player) event.getWhoClicked();
-                ItemStack leftMaterial = event.getInventory().getItem(0);
-                NbtCompound leftNbt = NbtFactory.asCompound(NbtFactory.fromItemTag(event.getInventory().getItem(0)));
-                ItemStack rightMaterial = event.getInventory().getItem(1);
-                NbtCompound rightNbt = NbtFactory.asCompound(NbtFactory.fromItemTag(event.getInventory().getItem(1)));
-                if(matchAnvilRecipe(leftMaterial, leftNbt, rightMaterial, rightNbt) == null) {
+                ItemStack leftItem = event.getInventory().getItem(0);
+                ItemStack rightItem = event.getInventory().getItem(1);
+                if(matchAnvilRecipe(leftItem, rightItem) == null) {
                     player.sendMessage("[CustomAnvilRecipe]: This is not a custom anvil recipe.");
                     return;
                 }

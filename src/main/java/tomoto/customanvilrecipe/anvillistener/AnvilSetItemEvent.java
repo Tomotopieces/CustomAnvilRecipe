@@ -1,8 +1,5 @@
 package tomoto.customanvilrecipe.anvillistener;
 
-import com.comphenix.protocol.utility.MinecraftReflection;
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
@@ -24,27 +21,22 @@ public class AnvilSetItemEvent implements Listener {
             return;
         }
 
-        ItemStack leftMaterial = event.getInventory().getItem(0);
-        NbtCompound leftNbt = NbtFactory.asCompound(NbtFactory.fromItemTag(inventory.getItem(0)));
-        ItemStack rightMaterial = event.getInventory().getItem(1);
-        NbtCompound rightNbt = NbtFactory.asCompound(NbtFactory.fromItemTag(inventory.getItem(1)));
+        ItemStack leftItem = event.getInventory().getItem(0);
+        ItemStack rightItem = event.getInventory().getItem(1);
 
-        if(matchAnvilRecipe(leftMaterial, leftNbt, rightMaterial, rightNbt) != null) {
+        if(matchAnvilRecipe(leftItem, rightItem) != null) {
             event.getViewers().forEach(viewer -> viewer.sendMessage("[CustomAnvilRecipe]: Existing recipe."));
         }
         else {
             event.getViewers().forEach(viewer -> viewer.sendMessage("[CustomAnvilRecipe]: Recipe does not exist."));
         }
-        Optional.of(matchAnvilRecipe(leftMaterial, leftNbt, rightMaterial, rightNbt)).map(r -> {
-            Optional.of(new ItemStack(r.getResultMaterial()))
-                    .map(item -> {
-                        NbtFactory.setItemTag(MinecraftReflection.getBukkitItemStack(item), r.getResultNbt());
-                        return item;})
+        Optional.of(matchAnvilRecipe(leftItem, rightItem)).map(recipe -> {
+            Optional.of(new ItemStack(recipe.getResultItem()))
                     .map(item -> {
                         event.setResult(item);
                         event.getInventory().setItem(2, item);
                         return item;});
-            return r;
+            return recipe;
         });
     }
 }

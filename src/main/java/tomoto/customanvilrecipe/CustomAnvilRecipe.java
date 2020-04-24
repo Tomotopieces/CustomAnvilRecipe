@@ -1,7 +1,5 @@
 package tomoto.customanvilrecipe;
 
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.io.NbtTextSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,10 +19,7 @@ import tomoto.customanvilrecipe.guiinventory.clicklistener.CreateClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     public static List<AnvilRecipe> recipeList = new ArrayList<>();
@@ -80,39 +75,19 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
         int i = 0;
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
-            recipe.setLeftMaterial(Material.getMaterial(recipeFile.getString(key + ".LeftMaterial")));
-            recipe.setRightMaterial(Material.getMaterial(recipeFile.getString(key + ".RightMaterial")));
-            recipe.setRightMaterial(Material.getMaterial(recipeFile.getString(key + ".ResultMaterial")));
-            try {
-                recipe.setLeftNbt(NbtTextSerializer.DEFAULT.deserializeCompound(recipeFile.getString(key + ".LeftNbt")));
-            }
-            catch(java.io.IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                recipe.setRightNbt(NbtTextSerializer.DEFAULT.deserializeCompound(recipeFile.getString(key + ".RightNbt")));
-            }
-            catch(java.io.IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                recipe.setResultNbt(NbtTextSerializer.DEFAULT.deserializeCompound(recipeFile.getString(key + ".ResultNbt")));
-            }
-            catch(java.io.IOException e) {
-                e.printStackTrace();
-            }
+            recipe.setLeftItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(0)));
+            recipe.setRightItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(1)));
+            recipe.setResultItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(2)));
             recipeList.add(recipe);
             i++;
         }
         Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getLogger().info(i + " recipes loaded.");
     }
 
-    public static AnvilRecipe matchAnvilRecipe(ItemStack leftItem, NbtCompound leftNbt, ItemStack rightItem, NbtCompound rightNbt) {
+    public static AnvilRecipe matchAnvilRecipe(ItemStack leftItem, ItemStack rightItem) {
         return recipeList.stream()
-                .filter(r -> r.getLeftMaterial().equals(leftItem.getType()))
-                .filter(r -> r.getLeftNbt().toString().equals(leftNbt.toString()))
-                .filter(r -> r.getRightMaterial().equals(rightItem.getType()))
-                .filter(r -> r.getRightNbt().toString().equals(rightNbt.toString()))
+                .filter(r -> r.getLeftItem().equals(leftItem))
+                .filter(r -> r.getRightItem().equals(rightItem))
                 .findFirst().orElse(null);
     }
 }

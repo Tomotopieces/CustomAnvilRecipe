@@ -1,8 +1,6 @@
 package tomoto.customanvilrecipe.anvilrecipe;
 
-import com.comphenix.protocol.wrappers.nbt.NbtCompound;
-import com.comphenix.protocol.wrappers.nbt.io.NbtTextSerializer;
-import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;
 
@@ -13,40 +11,27 @@ import static tomoto.customanvilrecipe.CustomAnvilRecipe.saveRecipeFile;
  * Custom anvil recipe.
  */
 public class AnvilRecipe {
-    private Material leftMaterial;
-    private NbtCompound leftNbt;
-    private Material rightMaterial;
-    private NbtCompound rightNbt;
-    private Material resultMaterial;
-    private NbtCompound resultNbt;
+    private ItemStack leftItem;
+    private ItemStack rightItem;
+    private ItemStack resultItem;
 
     /**
-     * Create a new anvil recipe.
-     * @param leftMaterial The left material of the recipe.
-     * @param leftNbt The NBT data of the left material.
-     * @param rightMaterial The right material of the recipe.
-     * @param rightNbt The NBT data of the right material.
+     *
+     * @param leftItem The left item of the recipe.
+     * @param rightItem The right item of the recipe.
      * @param resultItem The result item of the recipe.
-     * @param resultNbt The NBT of the result item.
      */
-    public AnvilRecipe(Material leftMaterial, NbtCompound leftNbt,
-                       Material rightMaterial, NbtCompound rightNbt,
-                       Material resultItem, NbtCompound resultNbt) {
-        this.leftMaterial = leftMaterial;
-        this.leftNbt = leftNbt;
-        this.rightMaterial = rightMaterial;
-        this.rightNbt = rightNbt;
-        this.resultMaterial = resultItem;
-        this.resultNbt = resultNbt;
+    public AnvilRecipe(ItemStack leftItem, ItemStack rightItem, ItemStack resultItem) {
+        this.leftItem = leftItem;
+        this.rightItem = rightItem;
+        this.resultItem = resultItem;
     }
 
     /**
      * Create an empty anvil recipe.
      */
     public AnvilRecipe() {
-        this(null, null,
-                null, null,
-                null, null);
+        this(null, null, null);
     }
 
     /**
@@ -54,130 +39,67 @@ public class AnvilRecipe {
      * @return The recipe.
      */
     public boolean saveToFile() {
-        if(leftMaterial == null || leftNbt == null ||
-                rightMaterial == null || rightNbt == null ||
-                resultMaterial == null || resultNbt == null) {
+        if(leftItem == null ||
+                rightItem == null ||
+                resultItem == null) {
             return false;
         }
         else {
             LocalDateTime time = LocalDateTime.now();
             String key = time.toString().replace('.', ' ');
-            recipeFile.set(key + ".LeftMaterial", leftMaterial.toString());
-            recipeFile.set(key + ".LeftNbt", NbtTextSerializer.DEFAULT.serialize(leftNbt));
-            recipeFile.set(key + ".RightMaterial", rightMaterial.toString());
-            recipeFile.set(key + ".RightNbt", NbtTextSerializer.DEFAULT.serialize(rightNbt));
-            recipeFile.set(key + ".ResultItem", resultMaterial.toString());
-            recipeFile.set(key + ".ResultNbt", NbtTextSerializer.DEFAULT.serialize(resultNbt));
+            recipeFile.set(key + ".LeftMaterial", leftItem.toString());
+            recipeFile.set(key + ".RightMaterial", rightItem.toString());
+            recipeFile.set(key + ".ResultItem", resultItem.toString());
             saveRecipeFile();
             return true;
         }
     }
 
     /**
-     * Get the left material (not NBT data) of the recipe.
-     * @see AnvilRecipe#getLeftNbt()
-     * @return The left material (not NBT data) of the recipe.
+     * Get the left material of the recipe.
+     * @return The left material of the recipe.
      */
-    public Material getLeftMaterial() {
-        return leftMaterial;
+    public ItemStack getLeftItem() {
+        return leftItem;
     }
 
     /**
-     * Get the NBT data (not item meta) of the left material.
-     * @see AnvilRecipe#getLeftMaterial()
-     * @return The NBT data of the left material.
-     */
-    public NbtCompound getLeftNbt() {
-        return leftNbt;
-    }
-
-    /**
-     * Get the right material (not NBT data) of the recipe.
-     * @see AnvilRecipe#getRightNbt()
+     * Get the right material of the recipe.
      * @return The right material of the recipe.
      */
-    public Material getRightMaterial() {
-        return rightMaterial;
+    public ItemStack getRightItem() {
+        return rightItem;
     }
 
     /**
-     * Get the NBT data (not item meta) of the right material.
-     * @see AnvilRecipe#getRightMaterial()
-     * @return The NBT data of the right material.
-     */
-    public NbtCompound getRightNbt() {
-        return rightNbt;
-    }
-
-    /**
-     * Get the result material (not NBT data) of the recipe.
-     * @see AnvilRecipe#getResultNbt()
+     * Get the result material of the recipe.
      * @return The result material of the recipe.
      */
-    public Material getResultMaterial() {
-        return resultMaterial;
+    public ItemStack getResultItem() {
+        return resultItem;
     }
 
     /**
-     * Get the NBT data (not item meta) of the result item.
-     * @see AnvilRecipe#getResultMaterial()
-     * @return The NBT data of the result item.
+     * Set the left material of the recipe.
+     * @param leftItem The left material of the recipe.
      */
-    public NbtCompound getResultNbt() {
-        return resultNbt;
+    public void setLeftItem(ItemStack leftItem) {
+        this.leftItem = leftItem;
     }
 
     /**
-     * Set the left material (not NBT data) of the recipe.
-     * @see AnvilRecipe#setLeftNbt(NbtCompound)
-     * @param leftMaterial The left material of the recipe.
+     * Set the right material of the recipe.
+     * @param rightItem The right material of the recipe.
      */
-    public void setLeftMaterial(Material leftMaterial) {
-        this.leftMaterial = leftMaterial;
+    public void setRightItem(ItemStack rightItem) {
+        this.rightItem = rightItem;
     }
 
     /**
-     * Set the NBT data (not item meta) of the lest material.
-     * @see AnvilRecipe#setLeftMaterial(Material)
-     * @param leftNbt The NBT data of the lest material.
+     * Set the result item of the recipe.
+     * @param resultItem The result item of the recipe.
      */
-    public void setLeftNbt(NbtCompound leftNbt) {
-        this.leftNbt = leftNbt;
-    }
-
-    /**
-     * Set the right material (not NBT data) of the recipe.
-     * @see AnvilRecipe#setRightNbt(NbtCompound)
-     * @param rightMaterial The right material of the recipe.
-     */
-    public void setRightMaterial(Material rightMaterial) {
-        this.rightMaterial = rightMaterial;
-    }
-
-    /**
-     * Set the right NBT data (not item meta) of the right material.
-     * @see AnvilRecipe#setRightMaterial(Material)
-     * @param rightNbt The right NBT data of the right material.
-     */
-    public void setRightNbt(NbtCompound rightNbt) {
-        this.rightNbt = rightNbt;
-    }
-
-    /**
-     * Set the result item (not NBT data) of the recipe.
-     * @see AnvilRecipe#setResultNbt(NbtCompound)
-     * @param resultMaterial The result item of the recipe.
-     */
-    public void setResultMaterial(Material resultMaterial) {
-        this.resultMaterial = resultMaterial;
-    }
-
-    /**
-     * Set the NBT data (not item meta) of the result item.
-     * @see AnvilRecipe#setResultMaterial(Material)
-     * @param resultNbt The NBT data of the result item.
-     */
-    public void setResultNbt(NbtCompound resultNbt) {
-        this.resultNbt = resultNbt;
+    public void setResultItem(ItemStack resultItem) {
+        this.resultItem = resultItem;
     }
 }
