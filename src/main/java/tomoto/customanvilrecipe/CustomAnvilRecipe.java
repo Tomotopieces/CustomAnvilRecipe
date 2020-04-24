@@ -29,7 +29,7 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     public void onLoad() {
         saveResource("recipeData.yml", false);
         recipeFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "recipeData.yml"));
-        loadRecipes(recipeList);
+        loadRecipes();
     }
 
     @Override
@@ -71,17 +71,17 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
         }
     }
 
-    public static void loadRecipes(List<AnvilRecipe> list) {
+    public void loadRecipes() {
         int i = 0;
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
-            recipe.setLeftItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(0)));
-            recipe.setRightItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(1)));
-            recipe.setResultItem(ItemStack.deserialize((Map<String, Object>) recipeFile.getMapList(key).get(2)));
+            recipe.setLeftItem(recipeFile.getItemStack(key + ".LeftItem"));
+            recipe.setRightItem(recipeFile.getItemStack(key + ".RightItem"));
+            recipe.setResultItem(recipeFile.getItemStack(key + ".ResultItem"));
             recipeList.add(recipe);
             i++;
         }
-        Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getLogger().info(i + " recipes loaded.");
+        getLogger().info(i + " recipe(s) loaded.");
     }
 
     public static AnvilRecipe matchAnvilRecipe(ItemStack leftItem, ItemStack rightItem) {

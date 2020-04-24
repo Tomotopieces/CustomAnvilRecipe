@@ -38,7 +38,7 @@ public class AnvilClickResultEvent implements Listener {
                 event.getWhoClicked().setItemOnCursor(event.getInventory().getItem(2));
                 Optional.of(event.getInventory()).map(inv -> {
                     Stream.iterate(0, i -> i + 1)
-                            .limit(3)
+                            .limit(2)
                             .forEach(i -> inv.removeItem(Optional.of(inv.getItem(i))
                                     .map(item -> {
                                         item.setAmount(1);
@@ -46,7 +46,7 @@ public class AnvilClickResultEvent implements Listener {
                                     }).get()));
                     return inv;
                 });
-                player.playSound(event.getInventory().getLocation(), Sound.BLOCK_ANVIL_USE, 100, 1);
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 100, 1);
             }
         }
     }

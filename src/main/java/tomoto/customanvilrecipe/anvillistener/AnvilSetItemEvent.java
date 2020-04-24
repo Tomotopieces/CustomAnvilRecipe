@@ -16,20 +16,18 @@ import static tomoto.customanvilrecipe.CustomAnvilRecipe.matchAnvilRecipe;
 public class AnvilSetItemEvent implements Listener {
     @EventHandler
     public void onPrepareAnvil(PrepareAnvilEvent event) {
-        AnvilInventory inventory = (AnvilInventory) event.getInventory();
+        AnvilInventory inventory = event.getInventory();
         if(inventory.getItem(0) == null || inventory.getItem(1) == null) {
             return;
         }
 
-        ItemStack leftItem = event.getInventory().getItem(0);
-        ItemStack rightItem = event.getInventory().getItem(1);
+        ItemStack leftItem = inventory.getItem(0);
+        ItemStack rightItem = inventory.getItem(1);
 
-        if(matchAnvilRecipe(leftItem, rightItem) != null) {
-            event.getViewers().forEach(viewer -> viewer.sendMessage("[CustomAnvilRecipe]: Existing recipe."));
+        if(matchAnvilRecipe(leftItem, rightItem) == null) {
+            return;
         }
-        else {
-            event.getViewers().forEach(viewer -> viewer.sendMessage("[CustomAnvilRecipe]: Recipe does not exist."));
-        }
+
         Optional.of(matchAnvilRecipe(leftItem, rightItem)).map(recipe -> {
             Optional.of(new ItemStack(recipe.getResultItem()))
                     .map(item -> {

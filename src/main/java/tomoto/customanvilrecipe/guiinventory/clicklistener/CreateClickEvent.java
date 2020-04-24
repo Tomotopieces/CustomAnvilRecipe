@@ -69,7 +69,7 @@ public class CreateClickEvent implements Listener {
         recipe.setRightItem(rightItem);
         recipe.setResultItem(resultItem);
 
-        if(matchAnvilRecipe(leftItem, rightItem) != null) {
+        if(matchAnvilRecipe(leftItem, rightItem) == null) {
             if(recipe.saveToFile()) {
                 player.closeInventory();
                 recipeList.add(recipe);
