@@ -3,6 +3,7 @@ package tomoto.customanvilrecipe.guiinventory.clicklistener;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtWrapper;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
+import static tomoto.customanvilrecipe.CustomAnvilRecipe.matchAnvilRecipe;
 import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeList;
 
 public class CreateClickEvent implements Listener {
@@ -76,13 +78,19 @@ public class CreateClickEvent implements Listener {
         recipe.setRightNbt(NbtFactory.asCompound(rightNbt));
         recipe.setResultNbt(NbtFactory.asCompound(resultNbt));
 
-        if(recipe.saveToFile()) {
-            player.closeInventory();
-            recipeList.add(recipe);
-            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
+        if(matchAnvilRecipe(leftMaterial, NbtFactory.asCompound(leftNbt), rightMaterial, NbtFactory.asCompound(rightNbt)) != null) {
+            if(recipe.saveToFile()) {
+                player.closeInventory();
+                recipeList.add(recipe);
+                player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
+            }
+            else {
+                player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "All three slots must be filled.");
+            }
         }
         else {
-            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "All three slots must be filled.");
+            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "A recipe using these materials already exists.");
         }
     }
 }

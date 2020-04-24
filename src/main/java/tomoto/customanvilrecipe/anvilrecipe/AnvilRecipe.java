@@ -1,13 +1,13 @@
 package tomoto.customanvilrecipe.anvilrecipe;
 
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
+import com.comphenix.protocol.wrappers.nbt.io.NbtTextSerializer;
 import org.bukkit.Material;
 
-import java.io.File;
 import java.time.LocalDateTime;
 
-import static tomoto.customanvilrecipe.CustomAnvilRecipe.dataFolder;
 import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeFile;
+import static tomoto.customanvilrecipe.CustomAnvilRecipe.saveRecipeFile;
 
 /**
  * Custom anvil recipe.
@@ -63,17 +63,12 @@ public class AnvilRecipe {
             LocalDateTime time = LocalDateTime.now();
             String key = time.toString().replace('.', ' ');
             recipeFile.set(key + ".LeftMaterial", leftMaterial.toString());
-            recipeFile.set(key + ".LeftNbt", leftNbt.toString());
+            recipeFile.set(key + ".LeftNbt", NbtTextSerializer.DEFAULT.serialize(leftNbt));
             recipeFile.set(key + ".RightMaterial", rightMaterial.toString());
-            recipeFile.set(key + ".RightNbt", rightNbt.toString());
+            recipeFile.set(key + ".RightNbt", NbtTextSerializer.DEFAULT.serialize(rightNbt));
             recipeFile.set(key + ".ResultItem", resultMaterial.toString());
-            recipeFile.set(key + ".ResultNbt", resultNbt.toString());
-            try {
-                recipeFile.save(new File(dataFolder, "recipeData.yml"));
-            }
-            catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
+            recipeFile.set(key + ".ResultNbt", NbtTextSerializer.DEFAULT.serialize(resultNbt));
+            saveRecipeFile();
             return true;
         }
     }
