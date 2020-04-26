@@ -22,14 +22,14 @@ import java.io.File;
 import java.util.*;
 
 public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
-    private static final String fileName = "recipeData.yml";
+    private static final String RECIPE_FILE_NAME = "recipeData.yml";
     public static List<AnvilRecipe> recipeList = new ArrayList<>();
     public static FileConfiguration recipeFile;
 
     @Override
     public void onLoad() {
-        saveResource(fileName, false);
-        recipeFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), fileName));
+        saveResource(RECIPE_FILE_NAME, false);
+        recipeFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), RECIPE_FILE_NAME));
         loadRecipes();
         getLogger().info(recipeList.size() + " recipe(s) loaded.");
     }
@@ -66,7 +66,7 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
 
     public static void saveRecipeFile() {
         try {
-            recipeFile.save(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), fileName));
+            recipeFile.save(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), RECIPE_FILE_NAME));
         }
         catch(java.io.IOException e) {
             e.printStackTrace();
@@ -76,10 +76,10 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     public static void loadRecipes() {
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
-            List<Map<?, ?>> maps =  recipeFile.getMapList(key);
-            recipe.setLeftItem(ItemStack.deserialize((Map<String, Object>) maps.get(0)));
-            recipe.setRightItem(ItemStack.deserialize((Map<String, Object>) maps.get(1)));
-            recipe.setResultItem(ItemStack.deserialize((Map<String, Object>) maps.get(2)));
+            //https://www.spigotmc.org/threads/create-an-itemstack-list-and-drop-the-items-config-yml.318010/#post-2994272
+            recipe.setLeftItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".LeftItem").getValues(true)));
+            recipe.setRightItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".RightItem").getValues(true)));
+            recipe.setResultItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".ResultItem").getValues(true)));
             recipeList.add(recipe);
         }
     }

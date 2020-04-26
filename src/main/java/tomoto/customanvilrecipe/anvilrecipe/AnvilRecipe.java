@@ -46,7 +46,7 @@ public class AnvilRecipe {
         }
         else {
             LocalDateTime time = LocalDateTime.now();
-            String key = time.toString().replace('.', ' ');
+            String key = time.toString().replace('.', '-');
             recipeFile.set(key + ".LeftItem", leftItem.serialize());
             recipeFile.set(key + ".RightItem", rightItem.serialize());
             recipeFile.set(key + ".ResultItem", resultItem.serialize());
