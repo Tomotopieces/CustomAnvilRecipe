@@ -32,7 +32,6 @@ public class AnvilClickResultEvent implements Listener {
                 ItemStack leftItem = event.getInventory().getItem(0);
                 ItemStack rightItem = event.getInventory().getItem(1);
                 if(matchAnvilRecipe(leftItem, rightItem) == null) {
-                    player.sendMessage("[CustomAnvilRecipe]: This is not a custom anvil recipe.");
                     return;
                 }
                 event.getWhoClicked().setItemOnCursor(event.getInventory().getItem(2));

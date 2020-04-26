@@ -20,17 +20,18 @@ public abstract class InventoryGui {
         return this;
     }
 
-    public InventoryGui setItem(ItemStack item, String name, String lore) {
-        setItem(item, name, Collections.singletonList(lore));
-        return this;
+    public ItemStack setButton(ItemStack item, String name, String lore) {
+        setButton(item, name, Collections.singletonList(lore));
+        return item;
     }
 
-    public static void setItem(ItemStack item, String name, List<String> lores) {
+    public static ItemStack setButton(ItemStack item, String name, List<String> lore) {
         Optional.ofNullable(item).ifPresent(i -> item.setItemMeta(Optional.of(item.getItemMeta())
                 .map(m -> {
                     m.setDisplayName(name);
-                    m.setLore(lores);
+                    m.setLore(lore);
                     return m;
                 }).get()));
+        return item;
     }
 }

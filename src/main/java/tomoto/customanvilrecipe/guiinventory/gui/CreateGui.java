@@ -23,21 +23,20 @@ public class CreateGui extends InventoryGui {
     public CreateGui openGui(Player player) {
         super.openGui(player);
 
-        /**
-         * 感谢 9032676
-         */
+        //感谢9032676
         player.closeInventory();
         player.openInventory(Optional.of(Bukkit.createInventory(player, 9, GUI_NAME)).map(inv -> {
-            setItem(BACK_BUTTON, BACK_BUTTON_NAME, "§r§eClick to return to menu.");
-            setItem(SAVE_BUTTON, SAVE_BUTTON_NAME, "§r§eClick to save recipe.");
-
             Stream.iterate(0, i -> i + 1)
                     .limit(inv.getSize())
                     .filter(i -> !isMaterialSlot(i))
                     .forEach(i -> {
                         switch (i) {
-                            case 0: inv.setItem(i, SAVE_BUTTON); return;
-                            case 8: inv.setItem(i, BACK_BUTTON); return;
+                            case 0: inv.setItem(i, Optional.of(SAVE_BUTTON)
+                                    .map(bb -> setButton(bb, SAVE_BUTTON_NAME, "§r§eClick to return to menu.")).get());
+                                return;
+                            case 8: inv.setItem(i, Optional.of(BACK_BUTTON)
+                                    .map(sb -> setButton(sb, BACK_BUTTON_NAME, "§r§eClick to save recipe.")).get());
+                                return;
                             default: inv.setItem(i, GRAY_GLASS_PANE);
                         }
                     });

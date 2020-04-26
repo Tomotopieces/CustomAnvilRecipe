@@ -1,5 +1,6 @@
-package tomoto.customanvilrecipe.commandexecutor;
+package tomoto.customanvilrecipe.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,15 +22,20 @@ public class AnvilExecutor implements CommandExecutor {
                 if(parameter.equalsIgnoreCase("menu")) {
                     new MenuGui().openGui(player);
                 }
-                if(parameter.equalsIgnoreCase("create")) {
+                else if(parameter.equalsIgnoreCase("create")) {
                     new CreateGui().openGui(player);
                 }
-                if(parameter.equalsIgnoreCase("list")) {
+                else if(parameter.equalsIgnoreCase("list")) {
                     //openListGUI();
                 }
-                if(parameter.equalsIgnoreCase("help") ||
+                else if(parameter.equalsIgnoreCase("help") ||
                         parameter.equalsIgnoreCase("?")) {
-                    //sendHelpMessage();
+                    player.sendMessage(ChatColor.AQUA + "===Custom Anvil Recipe Command List===");
+                    player.sendMessage("| /anvil        -- Open recipe menu.");
+                    player.sendMessage("| /anvil menu   -- Open recipe menu.");
+                    player.sendMessage("| /anvil create -- Create new recipes.");
+                    player.sendMessage("| /anvil list   -- Delete recipes. " + ChatColor.DARK_RED + "Not implemented.");
+                    player.sendMessage("| /anvil help   -- Show this message.");
                 }
             }
         }

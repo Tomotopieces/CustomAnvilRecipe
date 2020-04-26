@@ -16,10 +16,10 @@ import static tomoto.customanvilrecipe.CustomAnvilRecipe.matchAnvilRecipe;
 import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeList;
 
 public class CreateClickEvent implements Listener {
+    private Player player = null;
     @EventHandler
-    public void onMenuClick(InventoryClickEvent event) {
+    public void onCreateClick(InventoryClickEvent event) {
         int slot;
-        Player player;
         if(event.getWhoClicked().getOpenInventory().getTitle().equals(CreateGui.GUI_NAME)) {
             player = (Player)event.getWhoClicked();
             slot = event.getRawSlot();
@@ -43,7 +43,7 @@ public class CreateClickEvent implements Listener {
 
         switch (buttonName) {
             case CreateGui.SAVE_BUTTON_NAME:
-                CreateNewRecipe(player, event.getClickedInventory());
+                CreateNewRecipe(event.getClickedInventory());
                 break;
             case CreateGui.BACK_BUTTON_NAME:
                 new MenuGui().openGui(player);
@@ -53,10 +53,13 @@ public class CreateClickEvent implements Listener {
         }
     }
 
-    private void CreateNewRecipe(Player player, Inventory create) {
+    private void CreateNewRecipe(Inventory create) {
         if(create.getItem(2) == null ||
                 create.getItem(4) == null ||
-                create.getItem(6) == null) {
+                create.getItem(6) == null ||
+                player == null) {
+            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "All three slots must be filled.");
+            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 100, 1);
             return;
         }
 
@@ -76,12 +79,11 @@ public class CreateClickEvent implements Listener {
                 player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
             }
-            else {
-                player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "All three slots must be filled.");
-            }
         }
         else {
             player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "A recipe using these materials already exists.");
+            player.sendMessage("[CustomAnvilRecipe]: You have to delete the old recipe if you want to create this recipe.");
+            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 100, 1);
         }
     }
 }

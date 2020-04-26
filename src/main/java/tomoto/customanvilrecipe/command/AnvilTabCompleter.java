@@ -1,4 +1,4 @@
-package tomoto.customanvilrecipe.commandexecutor;
+package tomoto.customanvilrecipe.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

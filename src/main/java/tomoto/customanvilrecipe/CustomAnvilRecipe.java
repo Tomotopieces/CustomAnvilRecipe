@@ -13,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import tomoto.customanvilrecipe.anvillistener.AnvilClickResultEvent;
 import tomoto.customanvilrecipe.anvillistener.AnvilSetItemEvent;
 import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
-import tomoto.customanvilrecipe.commandexecutor.AnvilExecutor;
-import tomoto.customanvilrecipe.commandexecutor.AnvilTabCompleter;
+import tomoto.customanvilrecipe.command.AnvilExecutor;
+import tomoto.customanvilrecipe.command.AnvilTabCompleter;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.CreateClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
 
@@ -22,14 +22,16 @@ import java.io.File;
 import java.util.*;
 
 public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
+    private static final String fileName = "recipeData.yml";
     public static List<AnvilRecipe> recipeList = new ArrayList<>();
     public static FileConfiguration recipeFile;
 
     @Override
     public void onLoad() {
-        saveResource("recipeData.yml", false);
-        recipeFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "recipeData.yml"));
+        saveResource(fileName, false);
+        recipeFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), fileName));
         loadRecipes();
+        getLogger().info(recipeList.size() + " recipe(s) loaded.");
     }
 
     @Override
@@ -45,7 +47,7 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        saveRecipeFile();
     }
 
     @EventHandler
@@ -64,24 +66,22 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
 
     public static void saveRecipeFile() {
         try {
-            recipeFile.save(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), "recipeData.yml"));
+            recipeFile.save(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), fileName));
         }
         catch(java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadRecipes() {
-        int i = 0;
+    public static void loadRecipes() {
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
-            recipe.setLeftItem(recipeFile.getItemStack(key + ".LeftItem"));
-            recipe.setRightItem(recipeFile.getItemStack(key + ".RightItem"));
-            recipe.setResultItem(recipeFile.getItemStack(key + ".ResultItem"));
+            List<Map<?, ?>> maps =  recipeFile.getMapList(key);
+            recipe.setLeftItem(ItemStack.deserialize((Map<String, Object>) maps.get(0)));
+            recipe.setRightItem(ItemStack.deserialize((Map<String, Object>) maps.get(1)));
+            recipe.setResultItem(ItemStack.deserialize((Map<String, Object>) maps.get(2)));
             recipeList.add(recipe);
-            i++;
         }
-        getLogger().info(i + " recipe(s) loaded.");
     }
 
     public static AnvilRecipe matchAnvilRecipe(ItemStack leftItem, ItemStack rightItem) {

@@ -36,7 +36,7 @@ public class AnvilRecipe {
 
     /**
      * Save the recipe to file.
-     * @return The recipe.
+     * @return Whether the recipe was saved successfully.
      */
     public boolean saveToFile() {
         if(leftItem == null ||
@@ -47,49 +47,49 @@ public class AnvilRecipe {
         else {
             LocalDateTime time = LocalDateTime.now();
             String key = time.toString().replace('.', ' ');
-            recipeFile.set(key + ".LeftMaterial", leftItem.toString());
-            recipeFile.set(key + ".RightMaterial", rightItem.toString());
-            recipeFile.set(key + ".ResultItem", resultItem.toString());
+            recipeFile.set(key + ".LeftItem", leftItem.serialize());
+            recipeFile.set(key + ".RightItem", rightItem.serialize());
+            recipeFile.set(key + ".ResultItem", resultItem.serialize());
             saveRecipeFile();
             return true;
         }
     }
 
     /**
-     * Get the left material of the recipe.
-     * @return The left material of the recipe.
+     * Get the left item of the recipe.
+     * @return The left item of the recipe.
      */
     public ItemStack getLeftItem() {
         return leftItem;
     }
 
     /**
-     * Get the right material of the recipe.
-     * @return The right material of the recipe.
+     * Get the right item of the recipe.
+     * @return The right item of the recipe.
      */
     public ItemStack getRightItem() {
         return rightItem;
     }
 
     /**
-     * Get the result material of the recipe.
-     * @return The result material of the recipe.
+     * Get the result item of the recipe.
+     * @return The result item of the recipe.
      */
     public ItemStack getResultItem() {
         return resultItem;
     }
 
     /**
-     * Set the left material of the recipe.
-     * @param leftItem The left material of the recipe.
+     * Set the left item of the recipe.
+     * @param leftItem The left item of the recipe.
      */
     public void setLeftItem(ItemStack leftItem) {
         this.leftItem = leftItem;
     }
 
     /**
-     * Set the right material of the recipe.
-     * @param rightItem The right material of the recipe.
+     * Set the right item of the recipe.
+     * @param rightItem The right item of the recipe.
      */
     public void setRightItem(ItemStack rightItem) {
         this.rightItem = rightItem;

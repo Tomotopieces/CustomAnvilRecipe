@@ -21,15 +21,18 @@ public class MenuGui extends InventoryGui {
         super.openGui(player);
         player.closeInventory();
         player.openInventory(Optional.of(Bukkit.createInventory(player, 9, guiName)).map(inv -> {
-            setItem(CREATE_BUTTON, createButtonName, "§eClick to create new anvil recipe.");
-            setItem(LIST_BUTTON, listButtonName, "§eClick to check custom anvil recipes list.");
-
             Stream.iterate(0, i -> i + 1)
                     .limit(inv.getSize())
                     .forEach(i -> {
                         switch (i) {
-                            case 0: inv.setItem(i, CREATE_BUTTON); return;
-                            case 1: inv.setItem(i, LIST_BUTTON); return;
+                            case 0:
+                                inv.setItem(i, Optional.of(CREATE_BUTTON)
+                                        .map(cb -> setButton(cb, createButtonName, "§eClick to create new anvil recipe.")).get());
+                                return;
+                            case 1: inv.setItem(i, Optional.of(LIST_BUTTON)
+//                                    .map(lb -> setButton(lb, listButtonName, "§eClick to check custom anvil recipes list.")).get());
+                                    .map(lb -> setButton(lb, listButtonName, "§4Feature not implemented.")).get());
+                                return;
                             default: inv.setItem(i, GRAY_GLASS_PANE);
                         }
                     });
