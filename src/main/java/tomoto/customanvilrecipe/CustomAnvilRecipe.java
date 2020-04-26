@@ -1,13 +1,9 @@
 package tomoto.customanvilrecipe;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import tomoto.customanvilrecipe.anvillistener.AnvilClickResultEvent;
@@ -19,7 +15,8 @@ import tomoto.customanvilrecipe.guiinventory.clicklistener.CreateClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     private static final String RECIPE_FILE_NAME = "recipeData.yml";
@@ -42,26 +39,11 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new CreateClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilSetItemEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilClickResultEvent(), this);
-        Bukkit.getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
         saveRecipeFile();
-    }
-
-    @EventHandler
-    private void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getInventory().setItem(0, Optional.of(new ItemStack(Material.DIAMOND))
-                .map(item -> {
-                    item.setItemMeta(Optional.of(item.getItemMeta()).map(meta -> {
-                        meta.setLore(Collections.singletonList("This is a magic diamond."));
-                        meta.setDisplayName(ChatColor.AQUA + "Magic Diamond");
-                        return meta;
-                    }).get());
-                    return item;
-                })
-                .get());
     }
 
     public static void saveRecipeFile() {
