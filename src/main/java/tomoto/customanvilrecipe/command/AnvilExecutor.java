@@ -26,7 +26,7 @@ public class AnvilExecutor implements CommandExecutor {
                     new CreateGui().openGui(player);
                 }
                 else if(parameter.equalsIgnoreCase("list")) {
-                    //openListGUI();
+//                    new ListGui().openGui(player);
                 }
                 else if(parameter.equalsIgnoreCase("help") ||
                         parameter.equalsIgnoreCase("?")) {
@@ -37,8 +37,13 @@ public class AnvilExecutor implements CommandExecutor {
                     player.sendMessage("| /anvil list   -- Delete recipes. " + ChatColor.DARK_RED + "Not implemented.");
                     player.sendMessage("| /anvil help   -- Show this message.");
                 }
+                else if(parameter.equalsIgnoreCase("author")) {
+                    player.sendMessage("Author: Tomoto");
+                    player.sendMessage("Mcbbs: https://www.mcbbs.net/?240366");
+                    player.sendMessage("GitHub: https://github.com/Tomotopieces/CustomAnvilRecipe");
+                }
             }
         }
-        return false;
+        return true;
     }
 }
