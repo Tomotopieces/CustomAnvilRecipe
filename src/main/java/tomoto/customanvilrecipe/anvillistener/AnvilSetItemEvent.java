@@ -1,5 +1,6 @@
 package tomoto.customanvilrecipe.anvillistener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
@@ -31,6 +32,9 @@ public class AnvilSetItemEvent implements Listener {
         Optional.of(matchAnvilRecipe(leftItem, rightItem)).map(recipe -> {
             Optional.of(new ItemStack(recipe.getResultItem()))
                     .map(item -> {
+                        //Thanks https://www.spigotmc.org/threads/set-anvil-cost.382966/#post-3470585
+                        Optional.of(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe"))
+                                .map(plugin -> plugin.getServer().getScheduler().runTask(plugin, () -> inventory.setRepairCost(recipe.getRequiredLevel())));
                         event.setResult(item);
                         event.getInventory().setItem(2, item);
                         return item;});

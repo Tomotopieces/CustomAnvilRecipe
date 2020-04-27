@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class MenuGui extends InventoryGui {
-    public static final String guiName = "Anvil Menu";
-    public static final String createButtonName = "§lCreate";
-    public static final String listButtonName = "§lList";
+    public static final String GUI_NAME = "Anvil Menu";
+    public static final String CREATE_BUTTON_NAME = "§lCreate";
+    public static final String LIST_BUTTON_NAME = "§lList";
 
     private static final ItemStack CREATE_BUTTON = new ItemStack(Material.ANVIL);
     private static final ItemStack LIST_BUTTON = new ItemStack(Material.PAPER);
@@ -20,18 +20,18 @@ public class MenuGui extends InventoryGui {
     public MenuGui openGui(Player player) {
         super.openGui(player);
         player.closeInventory();
-        player.openInventory(Optional.of(Bukkit.createInventory(player, 9, guiName)).map(inv -> {
+        player.openInventory(Optional.of(Bukkit.createInventory(player, 9, GUI_NAME)).map(inv -> {
             Stream.iterate(0, i -> i + 1)
                     .limit(inv.getSize())
                     .forEach(i -> {
                         switch (i) {
                             case 0:
                                 inv.setItem(i, Optional.of(CREATE_BUTTON)
-                                        .map(cb -> setButton(cb, createButtonName, "§eClick to create new anvil recipe.")).get());
+                                        .map(cb -> setButton(cb, CREATE_BUTTON_NAME, "§eClick to create new anvil recipe.")).get());
                                 return;
                             case 1: inv.setItem(i, Optional.of(LIST_BUTTON)
 //                                    .map(lb -> setButton(lb, listButtonName, "§eClick to check custom anvil recipes list.")).get());
-                                    .map(lb -> setButton(lb, listButtonName, "§4Feature not implemented.")).get());
+                                    .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§4Feature not implemented.")).get());
                                 return;
                             default: inv.setItem(i, GRAY_GLASS_PANE);
                         }

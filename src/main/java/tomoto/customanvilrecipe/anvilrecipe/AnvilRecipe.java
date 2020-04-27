@@ -14,17 +14,30 @@ public class AnvilRecipe {
     private ItemStack leftItem;
     private ItemStack rightItem;
     private ItemStack resultItem;
+    private int requiredLevel;
 
     /**
-     *
+     * Create an anvil recipe.
+     * @param leftItem The left item of the recipe.
+     * @param rightItem The right item of the recipe.
+     * @param resultItem The result item of the recipe.
+     * @param requiredLevel The required level of the recipe.
+     */
+    public AnvilRecipe(ItemStack leftItem, ItemStack rightItem, ItemStack resultItem, int requiredLevel) {
+        this.leftItem = leftItem;
+        this.rightItem = rightItem;
+        this.resultItem = resultItem;
+        this.requiredLevel =requiredLevel;
+    }
+
+    /**
+     * Create an anvil recipe with required level 0.
      * @param leftItem The left item of the recipe.
      * @param rightItem The right item of the recipe.
      * @param resultItem The result item of the recipe.
      */
     public AnvilRecipe(ItemStack leftItem, ItemStack rightItem, ItemStack resultItem) {
-        this.leftItem = leftItem;
-        this.rightItem = rightItem;
-        this.resultItem = resultItem;
+        this(leftItem, rightItem, resultItem, 0);
     }
 
     /**
@@ -50,6 +63,7 @@ public class AnvilRecipe {
             recipeFile.set(key + ".LeftItem", leftItem.serialize());
             recipeFile.set(key + ".RightItem", rightItem.serialize());
             recipeFile.set(key + ".ResultItem", resultItem.serialize());
+            recipeFile.set(key + ".RequiredLevel", requiredLevel);
             saveRecipeFile();
             return true;
         }
@@ -80,8 +94,16 @@ public class AnvilRecipe {
     }
 
     /**
+     * Get the required level of the recipe.
+     * @return The required level of the recipe.
+     */
+    public int getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    /**
      * Set the left item of the recipe.
-     * @param leftItem The left item of the recipe.
+     * @param leftItem The new left item of the recipe.
      */
     public void setLeftItem(ItemStack leftItem) {
         this.leftItem = leftItem;
@@ -89,7 +111,7 @@ public class AnvilRecipe {
 
     /**
      * Set the right item of the recipe.
-     * @param rightItem The right item of the recipe.
+     * @param rightItem The new right item of the recipe.
      */
     public void setRightItem(ItemStack rightItem) {
         this.rightItem = rightItem;
@@ -97,9 +119,17 @@ public class AnvilRecipe {
 
     /**
      * Set the result item of the recipe.
-     * @param resultItem The result item of the recipe.
+     * @param resultItem The new result item of the recipe.
      */
     public void setResultItem(ItemStack resultItem) {
         this.resultItem = resultItem;
+    }
+
+    /**
+     * Set the required level of the recipe.
+     * @param requiredLevel The new required level of the recipe.
+     */
+    public void setRequiredLevel(int requiredLevel) {
+        this.requiredLevel = requiredLevel;
     }
 }

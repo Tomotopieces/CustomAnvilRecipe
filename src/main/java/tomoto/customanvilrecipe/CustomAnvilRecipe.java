@@ -58,10 +58,11 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     public static void loadRecipes() {
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
-            //https://www.spigotmc.org/threads/create-an-itemstack-list-and-drop-the-items-config-yml.318010/#post-2994272
+            //Thanks https://www.spigotmc.org/threads/create-an-itemstack-list-and-drop-the-items-config-yml.318010/#post-2994272
             recipe.setLeftItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".LeftItem").getValues(true)));
             recipe.setRightItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".RightItem").getValues(true)));
             recipe.setResultItem(ItemStack.deserialize(recipeFile.getConfigurationSection(key + ".ResultItem").getValues(true)));
+            recipe.setRequiredLevel(recipeFile.getInt(key + ".RequiredLevel"));
             recipeList.add(recipe);
         }
     }

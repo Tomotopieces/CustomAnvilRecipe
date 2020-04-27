@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
+import tomoto.customanvilrecipe.anvilrecipe.AnvilRecipe;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -31,10 +32,22 @@ public class AnvilClickResultEvent implements Listener {
                 Player player = (Player) event.getWhoClicked();
                 ItemStack leftItem = event.getInventory().getItem(0);
                 ItemStack rightItem = event.getInventory().getItem(1);
-                if(matchAnvilRecipe(leftItem, rightItem) == null) {
+                int requiredLevel;
+
+                AnvilRecipe recipe = matchAnvilRecipe(leftItem, rightItem);
+                if(recipe == null) {
                     return;
                 }
-                event.getWhoClicked().setItemOnCursor(event.getInventory().getItem(2));
+                else {
+                    requiredLevel = recipe.getRequiredLevel();
+                }
+
+                if(player.getLevel() < requiredLevel) {
+                    return;
+                }
+
+                player.setItemOnCursor(event.getInventory().getItem(2));
+                player.setLevel(player.getLevel() - requiredLevel);
                 Optional.of(event.getInventory()).map(inv -> {
                     Stream.iterate(0, i -> i + 1)
                             .limit(2)

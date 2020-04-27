@@ -11,7 +11,7 @@ public class MenuClickEvent implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
         Player player;
-        if(event.getWhoClicked().getOpenInventory().getTitle().equals(MenuGui.guiName)) {
+        if(event.getWhoClicked().getOpenInventory().getTitle().equals(MenuGui.GUI_NAME)) {
             player = (Player)event.getWhoClicked();
             event.setCancelled(true);
         }
@@ -28,11 +28,13 @@ public class MenuClickEvent implements Listener {
         }
 
         switch (buttonName) {
-            case MenuGui.createButtonName:
+            case MenuGui.CREATE_BUTTON_NAME:
                 new CreateGui().openGui(player);
                 break;
-            case MenuGui.listButtonName:
-
+            case MenuGui.LIST_BUTTON_NAME:
+                //new RecipeListGui().openGui(player);
+                break;
+            default:
                 break;
         }
     }
