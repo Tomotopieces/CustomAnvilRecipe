@@ -20,7 +20,12 @@ public abstract class InventoryGui {
         return this;
     }
 
-    public ItemStack setButton(ItemStack item, String name, String lore) {
+    public static ItemStack setButton(ItemStack item, String name) {
+        setButton(item, name, "NULL");
+        return item;
+    }
+
+    public static ItemStack setButton(ItemStack item, String name, String lore) {
         setButton(item, name, Collections.singletonList(lore));
         return item;
     }
@@ -29,7 +34,9 @@ public abstract class InventoryGui {
         Optional.ofNullable(item).ifPresent(i -> item.setItemMeta(Optional.of(item.getItemMeta())
                 .map(m -> {
                     m.setDisplayName(name);
-                    m.setLore(lore);
+                    if(!lore.get(0).equals("NULL")) {
+                        m.setLore(lore);
+                    }
                     return m;
                 }).get()));
         return item;

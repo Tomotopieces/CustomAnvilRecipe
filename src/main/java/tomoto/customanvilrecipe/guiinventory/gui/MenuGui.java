@@ -13,9 +13,6 @@ public class MenuGui extends InventoryGui {
     public static final String CREATE_BUTTON_NAME = "§lCreate";
     public static final String LIST_BUTTON_NAME = "§lList";
 
-    private static final ItemStack CREATE_BUTTON = new ItemStack(Material.ANVIL);
-    private static final ItemStack LIST_BUTTON = new ItemStack(Material.PAPER);
-
     @Override
     public MenuGui openGui(Player player) {
         super.openGui(player);
@@ -26,19 +23,18 @@ public class MenuGui extends InventoryGui {
                     .forEach(i -> {
                         switch (i) {
                             case 0:
-                                inv.setItem(i, Optional.of(CREATE_BUTTON)
+                                inv.setItem(i, Optional.of(new ItemStack(Material.ANVIL))
                                         .map(cb -> setButton(cb, CREATE_BUTTON_NAME, "§eClick to create new anvil recipe.")).get());
                                 return;
-                            case 1: inv.setItem(i, Optional.of(LIST_BUTTON)
-//                                    .map(lb -> setButton(lb, listButtonName, "§eClick to check custom anvil recipes list.")).get());
-                                    .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§4Feature not implemented.")).get());
+                            case 1: inv.setItem(i, Optional.of(new ItemStack(Material.PAPER))
+                                    .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§eClick to check custom anvil recipes list.")).get());
+//                                    .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§4Feature not implemented.")).get());
                                 return;
                             default: inv.setItem(i, GRAY_GLASS_PANE);
                         }
                     });
             return inv;
         }).get());
-
         return this;
     }
 }

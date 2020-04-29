@@ -1,5 +1,5 @@
 name: CustomAnvilRecipe
-version: Beta 1.0
+version: @version@
 main: tomoto.customanvilrecipe.CustomAnvilRecipe
 api-version: 1.13
 

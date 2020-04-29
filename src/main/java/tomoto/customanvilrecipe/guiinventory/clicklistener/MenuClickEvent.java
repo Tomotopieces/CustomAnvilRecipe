@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
-import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
+import tomoto.customanvilrecipe.guiinventory.gui.RecipeListGui;
 
 public class MenuClickEvent implements Listener {
     @EventHandler
@@ -19,7 +19,7 @@ public class MenuClickEvent implements Listener {
             return;
         }
 
-        String buttonName = null;
+        String buttonName;
         if(event.getCurrentItem() != null) {
             buttonName = event.getCurrentItem().getItemMeta().getDisplayName();
         }
@@ -32,7 +32,7 @@ public class MenuClickEvent implements Listener {
                 new CreateGui().openGui(player);
                 break;
             case MenuGui.LIST_BUTTON_NAME:
-                //new RecipeListGui().openGui(player);
+                new RecipeListGui().openGui(player);
                 break;
             default:
                 break;

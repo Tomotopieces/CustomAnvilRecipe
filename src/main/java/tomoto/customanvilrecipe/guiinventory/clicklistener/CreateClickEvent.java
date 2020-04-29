@@ -58,7 +58,7 @@ public class CreateClickEvent implements Listener {
     }
 
     private void ChangeRequiredLevel(Inventory create, ClickType type) {
-        ItemStack requiredLevel = create.getItem(5);
+        ItemStack requiredLevel = CreateGui.getLevelButton(create);
         if(type == ClickType.LEFT) {
             if(requiredLevel.getType().equals(Material.GLASS_BOTTLE)) {
                 requiredLevel.setType(Material.EXPERIENCE_BOTTLE);
