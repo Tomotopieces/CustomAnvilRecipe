@@ -45,7 +45,9 @@ public class CreateGui extends InventoryGui {
                                         inv.setItem(i, Optional.of(new ItemStack(Material.BOOK))
                                             .map(sb -> setButton(sb, BACK_BUTTON_NAME, "§r§eClick to return to the menu.")).get());
                                         return;
-                                    default: inv.setItem(i, GRAY_GLASS_PANE);
+                                    default:
+                                        inv.setItem(i, GRAY_GLASS_PANE);
+                                        return;
                                 }
                             });
                     return inv;

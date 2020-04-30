@@ -51,22 +51,14 @@ public class AnvilRecipe {
      * Save the recipe to file.
      * @return Whether the recipe was saved successfully.
      */
-    public boolean saveToFile() {
-        if(leftItem == null ||
-                rightItem == null ||
-                resultItem == null) {
-            return false;
-        }
-        else {
-            LocalDateTime time = LocalDateTime.now();
-            String key = time.toString().replace('.', '-');
-            recipeFile.set(key + ".LeftItem", leftItem.serialize());
-            recipeFile.set(key + ".RightItem", rightItem.serialize());
-            recipeFile.set(key + ".ResultItem", resultItem.serialize());
-            recipeFile.set(key + ".RequiredLevel", requiredLevel);
-            saveRecipeFile();
-            return true;
-        }
+    public void saveToFile() {
+        LocalDateTime time = LocalDateTime.now();
+        String key = time.toString().replace('.', '-');
+        recipeFile.set(key + ".LeftItem", leftItem.serialize());
+        recipeFile.set(key + ".RightItem", rightItem.serialize());
+        recipeFile.set(key + ".ResultItem", resultItem.serialize());
+        recipeFile.set(key + ".RequiredLevel", requiredLevel);
+        saveRecipeFile();
     }
 
     /**

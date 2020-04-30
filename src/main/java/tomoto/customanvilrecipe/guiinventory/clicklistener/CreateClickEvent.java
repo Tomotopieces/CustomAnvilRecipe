@@ -16,6 +16,7 @@ import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 
 import static tomoto.customanvilrecipe.CustomAnvilRecipe.matchAnvilRecipe;
 import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeList;
+import static tomoto.customanvilrecipe.guiinventory.gui.CreateGui.getLevelButton;
 
 public class CreateClickEvent implements Listener {
     private Player player = null;
@@ -58,7 +59,7 @@ public class CreateClickEvent implements Listener {
     }
 
     private void ChangeRequiredLevel(Inventory create, ClickType type) {
-        ItemStack requiredLevel = CreateGui.getLevelButton(create);
+        ItemStack requiredLevel = getLevelButton(create);
         if(type == ClickType.LEFT) {
             if(requiredLevel.getType().equals(Material.GLASS_BOTTLE)) {
                 requiredLevel.setType(Material.EXPERIENCE_BOTTLE);
@@ -113,7 +114,13 @@ public class CreateClickEvent implements Listener {
         ItemStack leftItem = create.getItem(2);
         ItemStack rightItem = create.getItem(4);
         ItemStack resultItem = create.getItem(6);
-        int requiredLevel = create.getItem(5).getAmount();
+        int requiredLevel;
+        if(getLevelButton(create).getType().equals(Material.GLASS_BOTTLE)) {
+            requiredLevel = 0;
+        }
+        else {
+            requiredLevel = getLevelButton(create).getAmount();
+        }
 
         AnvilRecipe recipe = new AnvilRecipe();
         recipe.setLeftItem(leftItem);
@@ -122,12 +129,11 @@ public class CreateClickEvent implements Listener {
         recipe.setRequiredLevel(requiredLevel);
 
         if(matchAnvilRecipe(leftItem, rightItem) == null) {
-            if(recipe.saveToFile()) {
-                player.closeInventory();
-                recipeList.add(recipe);
-                player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
-            }
+            recipe.saveToFile();
+            player.closeInventory();
+            recipeList.add(recipe);
+            player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.GREEN + "Recipe saved.");
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
         }
         else {
             player.sendMessage("[CustomAnvilRecipe]: " + ChatColor.RED + "A recipe using these materials already exists.");

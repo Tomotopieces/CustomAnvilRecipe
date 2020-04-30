@@ -13,6 +13,7 @@ import tomoto.customanvilrecipe.command.AnvilExecutor;
 import tomoto.customanvilrecipe.command.AnvilTabCompleter;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.CreateClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
+import tomoto.customanvilrecipe.guiinventory.clicklistener.RecipeDetialClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.RecipeListClickEvent;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new MenuClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new CreateClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new RecipeListClickEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new RecipeDetialClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilSetItemEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilClickResultEvent(), this);
     }
@@ -51,13 +53,14 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
     public static void saveRecipeFile() {
         try {
             recipeFile.save(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), RECIPE_FILE_NAME));
+            Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getLogger().info("Save recipe file successfully.");
         }
         catch(java.io.IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void loadRecipes() {
+    public void loadRecipes() {
         for(String key : recipeFile.getKeys(false)) {
             AnvilRecipe recipe = new AnvilRecipe();
             //Thanks https://www.spigotmc.org/threads/create-an-itemstack-list-and-drop-the-items-config-yml.318010/#post-2994272
@@ -67,6 +70,12 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
             recipe.setRequiredLevel(recipeFile.getInt(key + ".RequiredLevel"));
             recipeList.add(recipe);
         }
+    }
+
+    public static void resetFileData() {
+        Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").saveResource(RECIPE_FILE_NAME, true);
+        recipeFile = YamlConfiguration.loadConfiguration(new File(Bukkit.getPluginManager().getPlugin("CustomAnvilRecipe").getDataFolder(), RECIPE_FILE_NAME));
+        recipeList.stream().forEach(AnvilRecipe::saveToFile);
     }
 
     public static AnvilRecipe matchAnvilRecipe(ItemStack leftItem, ItemStack rightItem) {

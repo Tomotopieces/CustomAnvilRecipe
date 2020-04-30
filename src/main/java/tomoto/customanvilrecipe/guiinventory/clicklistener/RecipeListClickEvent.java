@@ -9,7 +9,6 @@ import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
 import tomoto.customanvilrecipe.guiinventory.gui.RecipeDetialGui;
 import tomoto.customanvilrecipe.guiinventory.gui.RecipeListGui;
 
-import static tomoto.customanvilrecipe.CustomAnvilRecipe.recipeList;
 import static tomoto.customanvilrecipe.guiinventory.gui.RecipeListGui.getPageButton;
 import static tomoto.customanvilrecipe.guiinventory.gui.RecipeListGui.getPageNumber;
 
@@ -41,8 +40,11 @@ public class RecipeListClickEvent implements Listener {
             case RecipeListGui.BACK_BUTTON_NAME:
                 new MenuGui().openGui(player);
                 break;
+            case MenuGui.LIST_BUTTON_NAME:
+                //Ridiculous.
+                break;
             default:
-                new RecipeDetialGui(recipeList.get((getPageNumber(getPageButton(event.getClickedInventory())) - 1) * 45 + event.getRawSlot())).openGui(player);
+                new RecipeDetialGui((getPageNumber(getPageButton(event.getClickedInventory())) - 1) * 45 + event.getSlot()).openGui(player);
                 break;
         }
     }
