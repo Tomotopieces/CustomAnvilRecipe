@@ -13,6 +13,7 @@ import tomoto.customanvilrecipe.command.AnvilExecutor;
 import tomoto.customanvilrecipe.command.AnvilTabCompleter;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.CreateClickEvent;
 import tomoto.customanvilrecipe.guiinventory.clicklistener.MenuClickEvent;
+import tomoto.customanvilrecipe.guiinventory.clicklistener.RecipeListClickEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public final class CustomAnvilRecipe extends JavaPlugin implements Listener {
         getCommand("anvil").setExecutor(new AnvilExecutor());
         Bukkit.getPluginManager().registerEvents(new MenuClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new CreateClickEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new RecipeListClickEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilSetItemEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AnvilClickResultEvent(), this);
     }

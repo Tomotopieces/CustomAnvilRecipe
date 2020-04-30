@@ -28,7 +28,6 @@ public class MenuGui extends InventoryGui {
                                 return;
                             case 1: inv.setItem(i, Optional.of(new ItemStack(Material.PAPER))
                                     .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§eClick to check custom anvil recipes list.")).get());
-//                                    .map(lb -> setButton(lb, LIST_BUTTON_NAME, "§4Feature not implemented.")).get());
                                 return;
                             default: inv.setItem(i, GRAY_GLASS_PANE);
                         }
