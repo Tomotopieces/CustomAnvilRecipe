@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tomoto.customanvilrecipe.guiinventory.gui.CreateGui;
 import tomoto.customanvilrecipe.guiinventory.gui.MenuGui;
+import tomoto.customanvilrecipe.guiinventory.gui.RecipeListGui;
 
 public class AnvilExecutor implements CommandExecutor {
 
@@ -26,16 +27,16 @@ public class AnvilExecutor implements CommandExecutor {
                     new CreateGui().openGui(player);
                 }
                 else if(parameter.equalsIgnoreCase("list")) {
-//                    new ListGui().openGui(player);
+                    new RecipeListGui().openGui(player);
                 }
                 else if(parameter.equalsIgnoreCase("help") ||
                         parameter.equalsIgnoreCase("?")) {
                     player.sendMessage(ChatColor.AQUA + "===Custom Anvil Recipe Command List===");
-                    player.sendMessage("| /anvil        -- Open recipe menu.");
-                    player.sendMessage("| /anvil menu   -- Open recipe menu.");
-                    player.sendMessage("| /anvil create -- Create new recipes.");
-                    player.sendMessage("| /anvil list   -- Delete recipes. " + ChatColor.DARK_RED + "Not implemented.");
-                    player.sendMessage("| /anvil help   -- Show this message.");
+                    player.sendMessage("| /anvil  -- Open recipe menu.");
+                    player.sendMessage("| /anvil menu  -- Open recipe menu.");
+                    player.sendMessage("| /anvil create  -- Create new recipes.");
+                    player.sendMessage("| /anvil list  -- Delete recipes.");
+                    player.sendMessage("| /anvil help  -- Show this message.");
                 }
                 else if(parameter.equalsIgnoreCase("author")) {
                     player.sendMessage("Author: Tomoto");
